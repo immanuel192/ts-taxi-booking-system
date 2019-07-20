@@ -3,6 +3,8 @@ import { PassportModule } from '@nestjs/passport';
 import { GlobalModule } from './global.module';
 import { MwGracefulShutdown, MwRequestLogger } from '../middlewares';
 import { providerErrorFilter, providerGlobalValidation } from '../providers';
+import { VehicleService } from '../services/vehicle.service';
+import { IOC_KEY } from '../commons';
 
 @Module({
   imports: [
@@ -13,7 +15,8 @@ import { providerErrorFilter, providerGlobalValidation } from '../providers';
   ],
   providers: [
     providerErrorFilter,
-    providerGlobalValidation
+    providerGlobalValidation,
+    VehicleService[IOC_KEY]
   ]
 })
 export class AppModule implements NestModule {
