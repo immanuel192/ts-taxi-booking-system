@@ -32,11 +32,14 @@ export const NoopLogger = {
 };
 
 /**
- * Simple mock repository
+ * Generate new logger mock object
  */
-export const repoMock = () => {
+export const loggerMock = () => {
   return {
-    insertOne: jest.fn(),
-    findOne: jest.fn()
+    error: jest.fn(),
+    log: jest.fn(),
+    warn: jest.fn(),
+    debug: jest.fn(),
+    verbose: jest.fn()
   };
 };
