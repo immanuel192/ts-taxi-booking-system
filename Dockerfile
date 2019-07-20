@@ -8,6 +8,6 @@ COPY . /var/app/current
 RUN npm install
 RUN npm run dist:build
 RUN rm -rf /var/app/current/src
-EXPOSE 9000
+EXPOSE 8080
 
 CMD npm run start
