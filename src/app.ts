@@ -29,12 +29,11 @@ async function bootstrap() {
   handleErrors();
 
   const options = new DocumentBuilder()
-    .setTitle('nest-todo')
-    .setDescription('nest-todo api')
-    .addBearerAuth('Authorization', 'header', 'basic')
+    .setTitle('nutonomy')
+    .setDescription('taxi booking system api')
     .build();
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('docs', app, document);
 
   await app.listen(process.env.NODE_PORT || 8080);
 }
