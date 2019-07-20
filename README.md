@@ -103,7 +103,7 @@ docker-compose up -d
 There is swagger integrated to help you easier navigate through all exposed restful api. Please follow:
 ```sh
 docker-compose up -d
-open http://localhost:9001/api/
+open http://localhost:9001/docs/
 ```
 
 ### Release Production:

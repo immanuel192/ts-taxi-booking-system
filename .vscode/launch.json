@@ -21,7 +21,7 @@
       "internalConsoleOptions": "openOnSessionStart",
       "env": {
         "NODE_ENV": "local",
-        "NODE_PORT": "9000"
+        "NODE_PORT": "8080"
       },
       "sourceMaps": true,
       "console": "internalConsole",
