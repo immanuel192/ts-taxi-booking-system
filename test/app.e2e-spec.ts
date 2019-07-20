@@ -34,7 +34,7 @@ describe('/src/app.ts', () => {
           .expect(200)
           .then((res) => {
             expect(res.body).toMatchObject({
-              name: 'nest-todo',
+              name: 'ts-taxi-booking-system',
               version: expect.anything()
             });
           });
