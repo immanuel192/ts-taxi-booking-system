@@ -4,6 +4,7 @@ import { AppModule } from '../src/modules/app.module';
 import { PROVIDERS } from '../src/commons';
 import { NoopLogger } from '../src/commons/test-helper';
 import * as request from 'supertest';
+import { IVehicleService } from '../src/services/vehicle.service.interface';
 
 describe('/src/app.ts', () => {
   let app: INestApplication;
@@ -146,6 +147,42 @@ describe('/src/app.ts', () => {
             });
           });
       });
+
+      it('when attempt booking with no available vehicles, return empty response', () => {
+        const vehicleService = app.get(IVehicleService);
+        vehicleService.clearVehicles();
+        return request(app.getHttpServer())
+          .post('/api/book')
+          .send({
+            source: { x: 0, y: 1 },
+            destination: { x: 1, y: 1 }
+          })
+          .set('accept', 'json')
+          .expect(201)
+          .then((res) => {
+            expect(res.body).toStrictEqual({});
+          });
+      });
+    });
+  });
+
+  describe('Tick', () => {
+    it('should fire tick event successfully', () => {
+      return request(app.getHttpServer())
+        .post('/api/tick')
+        .send({})
+        .set('accept', 'json')
+        .expect(201);
+    });
+  });
+
+  describe('Reset', () => {
+    it('should fire reset event successfully', async () => {
+      await request(app.getHttpServer())
+        .put('/api/reset')
+        .send({})
+        .set('accept', 'json')
+        .expect(200);
     });
   });
 });

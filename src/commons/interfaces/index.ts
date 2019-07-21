@@ -16,3 +16,8 @@ export type ILoggerInstance = {
   debug(message: any, context?: string): void;
   verbose(message: any, context?: string): void;
 };
+
+export interface ILocation {
+  x: number;
+  y: number;
+}

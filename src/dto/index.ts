@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, ValidateNested, } from 'class-validator';
+import { IsInt, IsNotEmpty, ValidateNested, IsBoolean, } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiModelProperty } from '@nestjs/swagger';
 
@@ -69,4 +69,15 @@ export class CreateBookingResponseDto {
     this.car_id = carId;
     this.total_time = totalTime;
   }
+}
+
+export class SuccessResponseDto {
+  @ApiModelProperty({
+    description: 'Request status',
+    required: true,
+    example: true,
+    type: Boolean
+  })
+  @IsBoolean()
+  success: boolean;
 }
