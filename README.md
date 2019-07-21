@@ -1,6 +1,6 @@
 ## Taxi booking system
 [![Build Status](https://travis-ci.org/immanuel192/ts-taxi-booking-system.svg?branch=master)](https://travis-ci.org/immanuel192/ts-taxi-booking-system)
-[![Coverage Status](https://coveralls.io/repos/github/immanuel192/ts-taxi-booking-system/badge.svg?branch=master)](https://coveralls.io/github/immanuel192/ts-taxi-booking-system?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/immanuel192/ts-taxi-booking-system/badge.svg?branch=master&t=1)](https://coveralls.io/github/immanuel192/ts-taxi-booking-system?branch=master)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://travis-ci.org/immanuel192/nest-todo)
 
 ### Problem statememt
@@ -103,7 +103,7 @@ docker-compose up -d
 There is swagger integrated to help you easier navigate through all exposed restful api. Please follow:
 ```sh
 docker-compose up -d
-open http://localhost:9001/docs/
+open http://localhost:8080/docs/
 ```
 
 ### Release Production:
