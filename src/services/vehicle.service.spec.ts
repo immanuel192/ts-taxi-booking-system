@@ -1,8 +1,8 @@
 import { loggerMock } from '../commons/test-helper';
-import { IOC_KEY } from '../commons';
+import { IOC_KEY, ILocation } from '../commons';
 import { VehicleService } from './vehicle.service';
 import { IVehicleService } from './vehicle.service.interface';
-import { IVehicle, Vehicle, ILocation } from './cars';
+import { IVehicle, Vehicle } from './cars';
 
 class FakeVehicle extends Vehicle {
   constructor(id: number, opts?: { location?: ILocation, status?: boolean }) {
@@ -23,10 +23,6 @@ class FakeVehicle extends Vehicle {
 }
 
 class FakeVehicleService extends VehicleService {
-  clearVehicles() {
-    this.vehicles = [];
-  }
-
   addVehicle(vehicle: IVehicle) {
     this.vehicles.push(vehicle);
   }
@@ -179,6 +175,39 @@ describe('/src/services/vehicle.service.ts', () => {
         carId: 2,
         totalTime: 3
       });
+    });
+
+    it('should start the itinerary if can find vehicle', async () => {
+      instance.clearVehicles();
+      const vehicle = new FakeVehicle(1);
+      const spyStart = jest.spyOn(vehicle, 'startItinerary');
+      instance.addVehicle(vehicle);
+
+      const result = await instance.attemptBooking(from, to);
+      expect(result).toMatchObject({
+        carId: 1,
+        totalTime: 2
+      });
+      expect(spyStart).toHaveBeenCalledTimes(1);
+      expect(spyStart).toBeCalledWith(from, to);
+
+      spyStart.mockRestore();
+    });
+  });
+
+  describe('tick', () => {
+    it('should call vehicle tick accordingly', async () => {
+      instance.clearVehicles();
+      const vehicle = new FakeVehicle(1);
+      const spyTick = jest.spyOn(vehicle, 'tick');
+      spyTick.mockResolvedValue({});
+      instance.addVehicle(vehicle);
+
+      await instance.attemptBooking({ x: 1, y: 0 }, { x: 5, y: 5 });
+      await instance.tick();
+
+      expect(spyTick).toHaveBeenCalledTimes(1);
+      spyTick.mockRestore();
     });
   });
 });

@@ -1,10 +1,10 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ClassProvider, OnModuleInit } from '@nestjs/common/interfaces';
 import { chain } from 'lodash';
-import { IOC_KEY, ILoggerInstance, PROVIDERS } from '../commons';
+import { IOC_KEY, ILoggerInstance, PROVIDERS, ILocation } from '../commons';
 import { IVehicleService } from './vehicle.service.interface';
 import { vehicleStrategy } from './cars/vehicleStrategy';
-import { EVehicleType, IVehicle, ILocation } from './cars/index';
+import { EVehicleType, IVehicle } from './cars/index';
 
 @Injectable()
 export class VehicleService implements IVehicleService, OnModuleInit {
@@ -24,6 +24,10 @@ export class VehicleService implements IVehicleService, OnModuleInit {
 
   async onModuleInit() {
     await this.loadVehicles();
+  }
+
+  clearVehicles() {
+    this.vehicles = [];
   }
 
   async loadVehicles() {
@@ -46,12 +50,23 @@ export class VehicleService implements IVehicleService, OnModuleInit {
     const carInfo = chain(this.vehicles)
       .filter(t => !t.isInItinerary)
       .map(c => ({
+        vehicle: c,
         carId: c.id,
         totalTime: this.getDistance(c.location, from) + travelDistance
       }))
       .sortBy(['totalTime', 'carId'], ['asc', 'asc'])
       .first()
       .value();
+
+    if (carInfo) {
+      await carInfo.vehicle.startItinerary(from, to);
+    }
     return Promise.resolve(carInfo);
+  }
+
+  async tick() {
+    if (this.vehicles.length > 0) {
+      await Promise.all(this.vehicles.map(v => v.tick()));
+    }
   }
 }
